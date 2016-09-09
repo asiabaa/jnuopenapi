@@ -79,6 +79,36 @@ class TokenHelper{
 	}
 
 	/**
+	 * 查询学生宿舍信息
+	 * @param  [type] $studentno [description]
+	 * @return [type]            [description]
+	 */
+	public function getDorm($studentno){
+		$accessToken = $this->getToken();
+		$result = array();
+		if(isset($accessToken)){
+			//设置 User-Token
+			$this->curl->setOption(CURLOPT_HTTPHEADER,
+				array(
+					'User-Token:' . $accessToken['token'],
+					));
+			// 设置 Form Data
+			$this->curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('studentno' => $studentno)));
+			// 伪造浏览器
+			$this->curl->setOption(CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
+			$resp = json_decode( $this->curl->post($this->host . $this->cas_url) );
+			if($resp && $resp->result == 200){
+				return $resp->data;
+			}else{
+				$result['error'] = '登录失败';
+			}
+		}else{
+			$result['error'] = 'API授权失败';
+		}
+		return $result;
+	}
+
+	/**
 	 * 验证CAS登录
 	 * Sample : {"result":200,"message":"Success!","data":{"id":"245327","type":"1","name":"申报人测试","user_id":"20140612194197","userName":"2013003","teacherid":"2013003","studentid":"","user_sex":"0","cardid":"2013003","unit_id":"080","unit_name":"人力资源开发与管理处","officephone":"","mobile":""}}
 	 * @param  [string] $username [description]
