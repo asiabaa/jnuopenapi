@@ -1,0 +1,23 @@
+{
+    "name": "dareninfo/yii2-jnu-openapi",
+    "description": "jnu openapi for Yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","jnu", "OpenAPI"],
+    "license": "Private",
+    "authors": [
+        {
+            "name": "Jack",
+            "email": "jack@dareninfo.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "ext-curl": "*",
+        "linslin/yii2-curl":"*"
+    },
+    "autoload": {
+        "psr-4": {
+            "dareninfo\\jnu\\openapi\\": ""
+        }
+    }
+}
