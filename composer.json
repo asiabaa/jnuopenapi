@@ -4,6 +4,7 @@
     "type": "yii2-extension",
     "keywords": ["yii2","extension","jnu", "OpenAPI"],
     "license": "Private",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Jack",
