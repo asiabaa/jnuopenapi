@@ -80,8 +80,9 @@ class TokenHelper{
 
 	/**
 	 * 查询学生宿舍信息
+	 * Sample Result : {"result":200,"message":"Success!","data":{"REGION":"广州本部","BUILDING_ADDRESS":"学11栋","ROOM_NO":"135","FEE":1000,"STUDENT_NO":"1623101001","STUDENT_NAME":"蔡智辉","SEX":"1","COLLEGE":"生命科学技术学院","MAJOR":"遗传学","SCHOOLING_LENGTH":"3","STU_POOL_TYPE":"内招生"}}
 	 * @param  [type] $studentno [description]
-	 * @return [type]            [description]
+	 * @return [stdObject]            [data to Json Object]
 	 */
 	public function getDorm($studentno){
 		$accessToken = $this->getToken();
@@ -96,7 +97,7 @@ class TokenHelper{
 			$this->curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('studentno' => $studentno)));
 			// 伪造浏览器
 			$this->curl->setOption(CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
-			$resp = json_decode( $this->curl->post($this->host . $this->cas_url) );
+			$resp = json_decode( $this->curl->post($this->host . $this->dorm_url) );
 			if($resp && $resp->result == 200){
 				return $resp->data;
 			}else{
