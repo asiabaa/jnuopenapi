@@ -157,17 +157,17 @@ class TokenHelper{
 			$this->curl->setOption(
 				CURLOPT_HTTPHEADER,
 				array(
-					'User-Token:' . $accessToken['token'],
+					'User-Token:' . $accessToken['token']
 					));
 			// 设置 Form Data
 			$this->curl->setOption(
 				CURLOPT_POSTFIELDS,
-				http_build_query($data),
+				http_build_query($data)
 				);
 			// 伪造浏览器
 			$this->curl->setOption(
 				CURLOPT_USERAGENT,
-				'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
+				'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
 				);
 			$resp = $this->curl->post($this->host . $method);
 			if($resp){
