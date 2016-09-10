@@ -36,6 +36,11 @@ class TokenHelper{
 	 */
 	private $dorm_url = '/service/other/studentdorm/search.html';
 	/**
+	 * 信息接口
+	 * @var string
+	 */
+	private $message_url = '/service/webservice/message/sendDefineMessage.html';
+	/**
 	 * APP ID
 	 * @var string
 	 */
@@ -70,12 +75,37 @@ class TokenHelper{
 	}
 
 	/**
+	 * [sendMessage description]
+	 * @param  [CustomMessage] $customMessage [信息实体]
+	 * @return [type]                [description]
+	 */
+	public function sendMessage($customMessage){
+		if(!customMessage ||
+			gettype($customMessage) != 'object' ||
+			get_class($customMessage) != 'CustomMessage'){
+			return json_decode( json_encode(array('error' => '参数错误：必须是CustomMessage实体对象')) );
+		}
+		$data = array(
+			'senderid' => $customMessage->senderid,
+			'type' => $customMessage->type,
+			'tunnel' => $customMessage->tunnel,
+			'receiverid' => $customMessage->receiverid,
+			'receivername' => $customMessage->receivername,
+			'target' => $customMessage->type,
+			'subject' => $customMessage->subject,
+			'message' => $customMessage->message,
+			);
+		return $this->request($this->message_url, $data);
+	}
+
+	/**
 	 * 查询学生缴费信息
-	 * @param  [type] $studentno [description]
-	 * @return [type]            [description]
+	 * @param  [string] $studentno [学生学号]
+	 * @return [stdObject]            [description]
 	 */
 	public function getStudentTuition($studentno){
-		return array('error' => '未实现');
+		$data = array('studentno'=>$studentno);
+		return $this->request($this->dorm_url, $data);
 	}
 
 	/**
@@ -85,28 +115,8 @@ class TokenHelper{
 	 * @return [stdObject]            [data to Json Object]
 	 */
 	public function getDorm($studentno){
-		$accessToken = $this->getToken();
-		$result = array();
-		if(isset($accessToken)){
-			//设置 User-Token
-			$this->curl->setOption(CURLOPT_HTTPHEADER,
-				array(
-					'User-Token:' . $accessToken['token'],
-					));
-			// 设置 Form Data
-			$this->curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('studentno' => $studentno)));
-			// 伪造浏览器
-			$this->curl->setOption(CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
-			$resp = json_decode( $this->curl->post($this->host . $this->dorm_url) );
-			if($resp && $resp->result == 200){
-				return $resp->data;
-			}else{
-				$result['error'] = '登录失败';
-			}
-		}else{
-			$result['error'] = 'API授权失败';
-		}
-		return $result;
+		$data = array('studentno' => $studentno);
+		return $this->request($this->dorm_url, $data);
 	}
 
 	/**
@@ -117,28 +127,8 @@ class TokenHelper{
 	 * @return [std Object]           [data 转换的 json 对象]
 	 */
 	public function getCas($username,$password){
-		$accessToken = $this->getToken();
-		$result = array();
-		if(isset($accessToken['token'])){
-			// 设置 User-Token
-			$this->curl->setOption(CURLOPT_HTTPHEADER,
-				array(
-					'User-Token:' . $accessToken['token'],
-					));
-			// 设置 Form Data
-			$this->curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('username' => $username, 'password' => $password)));
-			// 伪造浏览器
-			$this->curl->setOption(CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
-			$resp = json_decode( $this->curl->post($this->host . $this->cas_url) );
-			if($resp && $resp->result == 200){
-				return $resp->data;
-			}else{
-				$result['error'] = '登录失败';
-			}
-		}else{
-			$result['error'] = 'API认证错误';
-		}
-		return $result;
+		$data = array('username' => $username, 'password' => $password);
+		return $this->request($this->cas_url, $data);
 	}
 
 	/**
@@ -149,32 +139,46 @@ class TokenHelper{
 	 * @return [std Obj]            [data 转换的 json 对象]
 	 */
 	public function getCard($pid_class, $psnno){
+		$data = array('pidclass' => $pid_class,'psnno' => $psnno);
+		return $this->request($this->school_card_url, $data);
+	}
+
+	/**
+	 * 接口请求
+	 * @param  [string] $method [接口地址]
+	 * @param  [array] $data   [post数据]
+	 * @return [stdObject]         []
+	 */
+	private function request($method, $data){
 		$accessToken = $this->getToken();
 		$result = array();
-		if(isset($accessToken['token'])){
-			// 设置 User-Token
-			$option = array('User-Token:'. $accessToken['token']);
-			$this->curl->setOption(CURLOPT_HTTPHEADER,$option);
-			// 设置 Post Data
+		if(!array_key_exists('error',$accessToken)){
+			//设置 User-Token
+			$this->curl->setOption(
+				CURLOPT_HTTPHEADER,
+				array(
+					'User-Token:' . $accessToken['token'],
+					));
+			// 设置 Form Data
 			$this->curl->setOption(
 				CURLOPT_POSTFIELDS,
-				http_build_query(array('pidclass' => $pid_class,'psnno' => $psnno))
+				http_build_query($data),
 				);
 			// 伪造浏览器
 			$this->curl->setOption(
 				CURLOPT_USERAGENT,
-				'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
+				'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
 				);
-			$resp = json_decode( $this->curl->post($this->host . $this->school_card_url) );
-			if($resp && $resp->result == 200){
-				return $resp->data;
+			$resp = $this->curl->post($this->host . $method);
+			if($resp){
+				return $resp;
 			}else{
-				$result['error'] = '获取校园卡信息失败';
+				$result['error'] = '请求接口没有响应';
 			}
 		}else{
-			$result['error'] = '获取AccessToken失败';
+			$result['error'] = 'API授权失败';
 		}
-		return $result;
+		return json_decode(json_encode($result));
 	}
 
 	/**
@@ -186,7 +190,7 @@ class TokenHelper{
 	 * @return array              array('token'=>token,'time'=>time,'error'=>error_string)
 	 */
 	public function getToken(){
-
+		// 如果 cache 中有可用 AccessToken，直接取用
 		if(Yii::$app->cache && Yii::$app->cache->get('openapi_token') != null)
 		{
 			$token = Yii::$app->cache->get('openapi_token');
@@ -196,7 +200,7 @@ class TokenHelper{
 				}
 			}
 		}
-
+		// 从 cache 中读取失败，通过 API 获取
 		$now = time();
 		$curl = new Curl();
 		$token = array();
@@ -218,8 +222,6 @@ class TokenHelper{
 		}else{
 			$token['error'] = '网络错误';
 		}
-
 		return $token;
 	}
-
 }
