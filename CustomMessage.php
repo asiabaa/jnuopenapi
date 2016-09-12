@@ -18,7 +18,7 @@ class CustomMessage{
 	 * 发送者ID
 	 * @var string
 	 */
-	public $senderid = '';
+	public $senderid = '1';
 	/**
 	 * 消息类型
 	 * @var string

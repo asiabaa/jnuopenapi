@@ -76,6 +76,7 @@ class TokenHelper{
 
 	/**
 	 * [sendMessage description]
+	 * Sample Data:{"result":200,"message":"success.","data":{"id":3275,"sendtime":"2016-09-12 13:35:02"}}
 	 * @param  [CustomMessage] $customMessage [信息实体]
 	 * @return [type]                [description]
 	 */
@@ -100,6 +101,7 @@ class TokenHelper{
 
 	/**
 	 * 查询学生缴费信息
+	 * Sample Data:{"result":200,"message":"Success!","data":{"T_TUI_LEARN":"11532.000000","S_TUI_INSURANCE":"232.000000","S_TUI_DORM":"1300.000000","S_TUI_LEARN":"10000.000000","S_TUISUM":"1625071001","S_TUI_CARD":"0.000000","STUDENT_NO":"1625071001"}}
 	 * @param  [string] $studentno [学生学号]
 	 * @return [stdObject]            [description]
 	 */
