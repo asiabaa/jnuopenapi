@@ -172,8 +172,8 @@ class TokenHelper{
 				'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'
 				);
 			$resp = $this->curl->post($this->host . $method);
-			if($resp){
-				return $resp;
+			if($this->curl->responseCode == 200 && $resp){
+				return json_decode( $resp );
 			}else{
 				$result['error'] = '请求接口没有响应';
 			}
@@ -207,7 +207,7 @@ class TokenHelper{
 		$curl = new Curl();
 		$token = array();
 		$resp = $curl->get($this->host . $this->api_url . "?appid=$this->app_id&appsecret=$this->app_secret");
-		if(isset($resp)){
+		if($curl->responseCode == 200 && isset($resp)){
 			$json = json_decode($resp);
 			if($json){
 				if(isset($json->result) && $json->result == 200){
