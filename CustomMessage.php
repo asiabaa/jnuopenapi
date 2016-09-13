@@ -8,21 +8,16 @@ class CustomMessage{
 	/**
 	 * 通道
 	 */
-	public static const TUNNEL = array(
-		'JINAN_ALARM' => 'jinan_alarm',
-		'JINAN_MESSAGE' => 'jinan_message',
-		'SIHAI_ALARM' => 'sihai_alarm',
-		'SIHAI_MESSAGE' => 'sihai_message',
-		'SHOUYISMS' => 'shouyisms',
-		);
+	public static const TUNNEL_JINAN_ALARM = 'jinan_alarm';
+	public static const	TUNNEL_JINAN_MESSAGE = 'jinan_message';
+	public static const	TUNNEL_SIHAI_ALARM = 'sihai_alarm';
+	public static const	TUNNEL_SIHAI_MESSAGE = 'sihai_message';
+	public static const	TUNNEL_SHOUYISMS = 'shouyisms';
 	/**
 	 * 消息类型
 	 */
-	public static const MESSAGE_TYPE = array(
-		'EMAIL' => 'email',
-		'MOBILE' => 'mobile',
-		);
-
+	public static const MESSAGE_EMAIL = 'email';
+	public static const MESSAGE_MOBILE = 'mobile';
 	/**
 	 * 发送者ID
 	 * @var string
@@ -75,8 +70,8 @@ class CustomMessage{
 	 * @param  [type] $message [description]
 	 * @return [type]          [description]
 	 */
-	public function email($target,$subject,$message,$tunnel = CustomMessage::TUNNEL['JINAN_MESSAGE']){
-		$this->type = CustomMessage::MESSAGE_TYPE['EMAIL'];
+	public function email($target,$subject,$message,$tunnel = CustomMessage::TUNNEL_JINAN_MESSAGE){
+		$this->type = CustomMessage::MESSAGE_EMAIL;
 		$this->target = $target;
 		$this->subject = $subject;
 		$this->message = urlencode($message);
@@ -89,8 +84,8 @@ class CustomMessage{
 	 * @param  [type] $message [description]
 	 * @return [type]          [description]
 	 */
-	public function sms($target,$message,$tunnel = CustomMessage::TUNNEL['SHOUYISMS']){
-		$this->type = CustomMessage::MESSAGE_TYPE['MOBILE'];
+	public function sms($target,$message,$tunnel = CustomMessage::TUNNEL_SHOUYISMS){
+		$this->type = CustomMessage::MESSAGE_MOBILE;
 		$this->target = $target;
 		$this->message = $message;
 		$this->tunnel = $tunnel;
