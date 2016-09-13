@@ -81,9 +81,9 @@ class TokenHelper{
 	 * @return [type]                [description]
 	 */
 	public function sendMessage($customMessage){
-		if(!customMessage ||
+		if(!$customMessage ||
 			gettype($customMessage) != 'object' ||
-			get_class($customMessage) != 'CustomMessage'){
+			get_class($customMessage) != 'dareninfo\jnu\openapi\CustomMessage'){
 			return json_decode( json_encode(array('error' => '参数错误：必须是CustomMessage实体对象')) );
 		}
 		$data = array(
@@ -92,7 +92,7 @@ class TokenHelper{
 			'tunnel' => $customMessage->tunnel,
 			'receiverid' => $customMessage->receiverid,
 			'receivername' => $customMessage->receivername,
-			'target' => $customMessage->type,
+			'target' => $customMessage->target,
 			'subject' => $customMessage->subject,
 			'message' => $customMessage->message,
 			);

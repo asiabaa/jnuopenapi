@@ -8,16 +8,16 @@ class CustomMessage{
 	/**
 	 * 通道
 	 */
-	public static const TUNNEL_JINAN_ALARM = 'jinan_alarm';
-	public static const	TUNNEL_JINAN_MESSAGE = 'jinan_message';
-	public static const	TUNNEL_SIHAI_ALARM = 'sihai_alarm';
-	public static const	TUNNEL_SIHAI_MESSAGE = 'sihai_message';
-	public static const	TUNNEL_SHOUYISMS = 'shouyisms';
+	const TUNNEL_JINAN_ALARM = 'jinan_alarm';
+	const	TUNNEL_JINAN_MESSAGE = 'jinan_message';
+	const	TUNNEL_SIHAI_ALARM = 'sihai_alarm';
+	const	TUNNEL_SIHAI_MESSAGE = 'sihai_message';
+	const	TUNNEL_SHOUYISMS = 'shouyisms';
 	/**
 	 * 消息类型
 	 */
-	public static const MESSAGE_EMAIL = 'email';
-	public static const MESSAGE_MOBILE = 'mobile';
+	const MESSAGE_EMAIL = 'email';
+	const MESSAGE_MOBILE = 'mobile';
 	/**
 	 * 发送者ID
 	 * @var string
@@ -74,7 +74,7 @@ class CustomMessage{
 		$this->type = CustomMessage::MESSAGE_EMAIL;
 		$this->target = $target;
 		$this->subject = $subject;
-		$this->message = urlencode($message);
+		$this->message = $message;
 		$this->tunnel = $tunnel;
 	}
 
