@@ -173,7 +173,7 @@ class TokenHelper{
 				);
 			$resp = $this->curl->post($this->host . $method);
 			if($this->curl->responseCode == 200 && $resp){
-				return json_decode( $resp );
+				return json_decode($resp);
 			}else{
 				$result['error'] = '请求接口没有响应';
 			}
