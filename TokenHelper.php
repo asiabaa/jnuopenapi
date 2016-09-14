@@ -63,9 +63,9 @@ class TokenHelper{
 
 	/**
 	 * 构造函数
-	 * @param [type] $appid     [description]
-	 * @param [type] $appsecret [description]
-	 * @param [type] $host      [description]
+	 * @param [string] $appid     [description]
+	 * @param [string] $appsecret [description]
+	 * @param [string] $host      [接口地址]
 	 */
 	function __construct($appid,$appsecret,$host){
 		$this->app_id = $appid;
@@ -103,7 +103,7 @@ class TokenHelper{
 	 * 查询学生缴费信息
 	 * Sample Data:{"result":200,"message":"Success!","data":{"T_TUI_LEARN":"11532.000000","S_TUI_INSURANCE":"232.000000","S_TUI_DORM":"1300.000000","S_TUI_LEARN":"10000.000000","S_TUISUM":"1625071001","S_TUI_CARD":"0.000000","STUDENT_NO":"1625071001"}}
 	 * @param  [string] $studentno [学生学号]
-	 * @return [stdObject]            [description]
+	 * @return [JSON]            [JSON对象]
 	 */
 	public function getStudentTuition($studentno){
 		$data = array('studentno'=>$studentno);
@@ -114,7 +114,7 @@ class TokenHelper{
 	 * 查询学生宿舍信息
 	 * Sample Result : {"result":200,"message":"Success!","data":{"REGION":"广州本部","BUILDING_ADDRESS":"学11栋","ROOM_NO":"135","FEE":1000,"STUDENT_NO":"1623101001","STUDENT_NAME":"蔡智辉","SEX":"1","COLLEGE":"生命科学技术学院","MAJOR":"遗传学","SCHOOLING_LENGTH":"3","STU_POOL_TYPE":"内招生"}}
 	 * @param  [type] $studentno [description]
-	 * @return [stdObject]            [data to Json Object]
+	 * @return [JSON]            [JSON对象]
 	 */
 	public function getDorm($studentno){
 		$data = array('studentno' => $studentno);
@@ -126,7 +126,7 @@ class TokenHelper{
 	 * Sample : {"result":200,"message":"Success!","data":{"id":"245327","type":"1","name":"申报人测试","user_id":"20140612194197","userName":"2013003","teacherid":"2013003","studentid":"","user_sex":"0","cardid":"2013003","unit_id":"080","unit_name":"人力资源开发与管理处","officephone":"","mobile":""}}
 	 * @param  [string] $username [description]
 	 * @param  [string] $password [description]
-	 * @return [std Object]           [data 转换的 json 对象]
+	 * @return [JSON]           [data 转换的 json 对象]
 	 */
 	public function getCas($username,$password){
 		$data = array('username' => $username, 'password' => $password);
