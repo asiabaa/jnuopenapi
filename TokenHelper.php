@@ -107,7 +107,7 @@ class TokenHelper{
 	 */
 	public function getStudentTuition($studentno){
 		$data = array('studentno'=>$studentno);
-		return $this->request($this->dorm_url, $data);
+		return $this->request($this->student_tuition_url, $data);
 	}
 
 	/**
